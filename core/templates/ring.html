@@ -58,14 +58,29 @@
         <div class="col-md-4">
             <div class="card" style="margin-bottom: 1rem; background-color: #99CAF6; width: 800px; margin-inline: 300px;">
                 <h5 class="card-title">
-                    <a href="/profile/{{ring.author.username}}">{{ring.author.username}}</a> | ${{ring.price}}
+                    <a href="/profile/{{ring.author.username}}" style="margin-left: 10px">{{ring.author.username}}</a> | ${{ring.price}}
+                    <p style="text-align: right;">{{ring.created_at}}</p>
                     <p><b>{{ring.title}}</b> {% if request.user.username == ring.author.username %}
                         <a style="float: right;" href='/delete_ring?id={{ring.id}}' class="btn btn-danger btn-sm">delete</a> {% endif %}
                     </p>
                 </h5>
                 <div class="card-body">
-                    {{ring.body}}
+                    <p>{{ring.body}}</p>
                 </div>
+                <form method="POST" action="/comment" style="margin-bottom: 0 !important;">
+                    {% csrf_token %}
+                    <input type="hidden" class="form-control" name='postId' value="{{ring.id}}" />
+                    <input type="hidden" class="form-control" name='postType' value="Ring" />
+                    <input class="form-control" name="body" placeholder="comment" />
+                    <input class="form-control" type="submit" value="create" />
+                </form>
+                {% for comment in ring.comments.all %}
+                <div class="card" style="background-color: #DDDDDD;">
+                    <a href="profile/{{comment.author.username}}">{{comment.author.username}}</a>
+                    <p>{{comment.body}}</p>
+                    <a>{{comment.created_at}}</a>
+                </div>
+                {% endfor %}
             </div>
         </div>
         {% endfor %}
