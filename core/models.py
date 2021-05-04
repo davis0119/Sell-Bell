@@ -8,24 +8,30 @@ class Bell(models.Model):
     title = models.CharField(max_length=50)
     body = models.TextField()
     price = models.FloatField(blank=True, default=0)
+    # image = models.ImageField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     def __str__(self): # the Bell's associated user, the title and price
-        return "'s Bell: " + str(self.title) + ', $' + str(self.price)
-    def __eq__(self, other):
-        return self.title == other.title and self.body == other.body and self.price == other.price and self.author == other.author
+        return str(self.author.username) + "'s Bell: " + str(self.title) + ', $' + str(self.price)
+    def __add__(self, other):
+        if other.isnumeric():
+            self.price = self.price + other 
+        return self.price
 
 # Rings (service requests)
 class Ring(models.Model):
     title = models.CharField(max_length=50)
     body = models.TextField()
     price = models.FloatField(blank=True, default=0)
+    # image = models.ImageField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     def __str__(self): # the Ring's associated user, the title and price
-        return "'s Ring: " + str(self.title) + ', $' + str(self.price) 
-    def __eq__(self, other):
-        return self.title == other.title and self.body == other.body and self.price == other.price and self.author == other.author
+        return str(self.author.username) + "'s Ring: " + str(self.title) + ', $' + str(self.price) 
+    def __add__(self, other):
+        if other.isnumeric():
+            self.price = self.price + other 
+        return self.price
 
 class Comment(models.Model):
     body = models.TextField()

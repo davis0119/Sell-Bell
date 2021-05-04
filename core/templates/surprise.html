@@ -9,7 +9,7 @@
     <style type="text/css">
         body {
             background-color: #99CAF6;
-            background-image: linear-gradient(to right, #E7F3FF, #99CAF6);
+            background-image: linear-gradient(to right, #85EBB5, #B15EFF);
             font-family: "Courier New", Courier, monospace;
         }
         
@@ -18,7 +18,7 @@
             vertical-align: middle;
         }
     </style>
-    <title>bell</title>
+    <title>surprise!</title>
     <nav class="navbar sticky-top navbar-expand-lg #0086FF bg-light">
         <a class="navbar-brand" href="/" style="margin-left: 10px"><b>bell</b></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,9 +27,9 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <a class="nav-link" href="/bell">bells</a>
-                <b><a class="nav-link" href="/ring">rings</a></b>
+                <a class="nav-link" href="/ring">rings</a>
                 <a class="nav-link" href="/profile/{{request.user.username}}">{{request.user.username}}</a>
-                <a class="nav-link" href="/random">surprise</a>
+                <b><a class="nav-link" href="/random">surprise</a></b>
                 <a class="nav-link" href="/logout">logout</a>
             </div>
         </div>
@@ -40,42 +40,27 @@
 
     <div class="container">
         <br/>
-        <h1 style="margin-top: 2rem; margin-bottom: 2rem">here's everything the bell community currently needs!</h1>
-        <div class="col-md-4" style="margin-inline: 450px;">
-            <div class="jumbotron" style="margin-bottom: 1rem; background-color: #99CAF6;">
-                <div class="card-body">
-                    <p><b>make a ring here!</b></p>
-                    <form method="POST" action="/ring" style="margin-bottom: 0 !important;">
-                        {% csrf_token %}
-                        <input class="form-control" name="title" placeholder="title" />
-                        <input class="form-control" name="body" placeholder="description" />
-                        <input class="form-control" name="price" value=0 placeholder="price" />
-                        <input class="form-control" type="submit" value="create" />
-                    </form>
-                </div>
-            </div>
-        </div>
-        {% for ring in rings %}
+        <h1 style="margin-top: 2rem; margin-bottom: 2rem">{{ rand_fact }}</h1>
         <div class="col-md-4">
-            <div class="card" style="margin-bottom: 1rem; background-color: #99CAF6; width: 800px; margin-inline: 300px;">
+            <div class="card" style="margin-bottom: 1rem; background-color: #9F95F7; width: 800px; margin-inline: 300px;">
                 <h5 class="card-title">
-                    <a href="/profile/{{ring.author.username}}" style="margin-left: 10px">{{ring.author.username}}</a> | ${{ring.price}}
-                    <p style="text-align: right;">{{ring.created_at}}</p>
-                    <p><b>{{ring.title}}</b> {% if request.user.username == ring.author.username %}
-                        <a style="float: right;" href='/delete_ring?id={{ring.id}}' class="btn btn-danger btn-sm">delete</a> {% endif %}
+                    <a href="/profile/{{post.author.username}}" style="margin-left: 10px">{{post.author.username}}</a> | ${{post.price}}
+                    <p style=" text-align: right; ">{{post.created_at}}</p>
+                    <p>
+                        <b>{{post.title}}</b>
                     </p>
                 </h5>
-                <div class="card-body">
-                    <p>{{ring.body}}</p>
+                <div class="card-body ">
+                    <p>{{post.body}}</p>
                 </div>
                 <form method="POST" action="/comment" style="margin-bottom: 0 !important;">
                     {% csrf_token %}
-                    <input type="hidden" class="form-control" name='postId' value="{{ring.id}}" />
-                    <input type="hidden" class="form-control" name='postType' value="Ring" />
+                    <input type="hidden" class="form-control" name='postId' value="{{post.id}}" />
+                    <input type="hidden" class="form-control" name='postType' value="{{post_type}}" />
                     <input class="form-control" name="body" placeholder="comment" />
                     <input class="form-control" type="submit" value="create" />
                 </form>
-                {% for comment in ring.comments.all %}
+                {% for comment in post.comments.all %}
                 <div class="card" style="background-color: #DDDDDD;">
                     <a href="profile/{{comment.author.username}}">{{comment.author.username}}</a>
                     <p>{{comment.body}}</p>
@@ -84,7 +69,6 @@
                 {% endfor %}
             </div>
         </div>
-        {% endfor %}
     </div>
 </body>
 

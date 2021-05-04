@@ -2,9 +2,11 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout 
 from core.models import Ring, Bell, Comment
 from django.contrib.auth.models import User
-
-user_revenue = dict()
-user_expense = dict() 
+from decimal import Decimal
+import randfacts
+from randfacts import getFact 
+import random
+from random import randint
 
 def splash(request):
     return render(request, 'splash.html', {})
@@ -17,7 +19,7 @@ def bell(request):
         title, body, price = request.POST['title'], request.POST['body'], request.POST['price']
         res = price.replace('.', '', 1)
         if len(title) != 0 and len(price) != 0 and res.isnumeric():
-            price = round(float(price), 2)
+            price = round(Decimal(price), 2)
             Bell.objects.create(title=title, body=body, price=price, author=request.user)
     bells = Bell.objects.all().order_by('-id')
     return render(request, 'bell.html', {'bells': bells})
@@ -29,11 +31,10 @@ def ring(request):
     if request.method == 'POST':
         title, body, price = request.POST['title'], request.POST['body'], request.POST['price']
         if len(title) != 0 and len(price) != 0 and price.isnumeric():
-            price = round(float(price), 2)
+            price = round(Decimal(price), 2)
             Ring.objects.create(title=title, body=body, price=price, author=request.user)
     rings = Ring.objects.all().order_by('-id')
-    comments = {}
-    return render(request, 'ring.html', {'rings': rings, 'comments': comments})
+    return render(request, 'ring.html', {'rings': rings})
 
 def comment(request):
     if request.method == 'POST':
@@ -51,7 +52,7 @@ def comment(request):
             return redirect('/ring')
         return redirect('/bell')
             
-def login_view(request):
+def login_view(request): # login logic
     if request.user.is_authenticated:
         return redirect('/') 
     if request.method == 'POST':
@@ -63,7 +64,7 @@ def login_view(request):
         return redirect('/')
     return render(request, 'accounts.html')
 
-def signup_view(request):
+def signup_view(request): # signup logic 
     if request.method == 'POST':
         username, password, email = request.POST['username'], request.POST['password'], request.POST['email']
         user = User.objects.create_user(username=username, password=password, email=email)
@@ -92,6 +93,24 @@ def profile_view(request, username):
         author_user = User.objects.get(username=request.user.username)
     else:
         author_user = User.objects.get(username=username)
+    # find all the bells and rings of the user 
     bells = Bell.objects.filter(author=author_user)
     rings = Ring.objects.filter(author=author_user)
     return render(request, 'profile.html', {'rings': rings, 'bells': bells, 'username': username})
+
+def surprise(request):
+    if not request.user.is_authenticated:
+        return redirect('/login') 
+    fact = randfacts.getFact()
+    # keep it lowercase, keep it classy
+    fact = fact.lower() 
+    # randomly determine which post in existence they shall receive
+    if randint(0, 1) == 1:
+        count = Bell.objects.count()
+        post = Bell.objects.all()[randint(0, count - 1)]
+        post_type = 'Bell'
+    else: 
+        count = Ring.objects.count()   
+        post = Ring.objects.all()[randint(0, count - 1)]
+        post_type = 'Ring'
+    return render(request, 'surprise.html', {'rand_fact': fact, 'post': post, 'post_type': post_type})
