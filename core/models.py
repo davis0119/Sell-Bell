@@ -1,8 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User 
 
-# each has a form, send a postID along with the comment?
-
 # Bells (services)
 class Bell(models.Model):
     title = models.CharField(max_length=50)
