@@ -1,13 +1,3 @@
-## One class definition (with at least two magic methods)
-- Ring & Bell are two classes with __str__ and __add__ 
-
-Two first-party packages (e.g. json, time)
-- decimal, random
-
-Two third-party packages (e.g. Django, Tensorflow/Keras)
-- Django, randfact
-
-README.md (installation instructions, code structure)
 # BELL
 
 submitted by: **Davis Tran**
@@ -33,5 +23,3 @@ pennkey: **davisdt**
 - created two different types of Posts: Bells and Rings 
 - allowed users to delete their own posts when they feel they no longer need it
 - users can comment on every post and work things out 
-
-A video walking through the final project (running) and a walkthough of the code requirements.
