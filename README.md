@@ -1,9 +1,6 @@
 # BELL
 
-submitted by: **Davis Tran**
-pennkey: **davisdt**
-
-## how to run the amazing tumblr recreation 
+## how to run the amazing creation for services and service requests
 
 **1)** cd bell
 **2)** pip install -r requirements.txt
