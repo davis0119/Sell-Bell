@@ -13,7 +13,7 @@ README.md (installation instructions, code structure)
 submitted by: **Davis Tran**
 pennkey: **davisdt**
 
-## how to run the amazing tumblr recreation 
+## how to run bell
 
 **1)** cd bell
 **2)** pip install -r requirements.txt
@@ -27,6 +27,8 @@ pennkey: **davisdt**
 - / | splash page, explanation of product
 - /login | login, signup page
 - /profile/< username > | username's profile page with their bells and rings
+- /bell | page with all the posted srervices 
+- /ring | page with all the requested services
 - /random | random fact and random post
 
 ## design considerations, code structure 
@@ -34,4 +36,5 @@ pennkey: **davisdt**
 - allowed users to delete their own posts when they feel they no longer need it
 - users can comment on every post and work things out 
 
-A video walking through the final project (running) and a walkthough of the code requirements.
+# A video walking through the final project (running) and a walkthough of the code requirements.
+https://www.youtube.com/watch?v=ITIKEG-Ss8Q

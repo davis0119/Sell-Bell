@@ -4,8 +4,6 @@ from core.models import Ring, Bell, Comment
 from django.contrib.auth.models import User
 from decimal import Decimal
 import randfacts
-from randfacts import getFact 
-import random
 from random import randint
 
 def splash(request):
