@@ -2,12 +2,12 @@
 
 ## how to run the amazing creation for services and service requests
 
-**1)** cd bell
-**2)** pip install -r requirements.txt
-**3)** on the command line, run "python manage.py makemigrations" 
-**4)** on the command line, run "python manage.py migrate" 
-**5)** on the command line, run "python manage.py runserver" 
-**6)** should be on localhost:8000 -- enjoy
+1. cd bell
+2. pip install -r requirements.txt (delete some requirements that aren't needed!)
+3. on the command line, run "python manage.py makemigrations" 
+4. on the command line, run "python manage.py migrate" 
+5. on the command line, run "python manage.py runserver" 
+6. should be on localhost:8000 -- enjoy
 
 ## routes
 - /admin | django admin portal
